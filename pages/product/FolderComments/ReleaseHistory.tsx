@@ -18,7 +18,7 @@ const ReleaseHistory: React.FC = () => {
             {/* Version & Date - Left aligned on desktop */}
             <div className="mb-4 md:mb-0 md:absolute md:-left-44 md:w-36 md:text-right md:top-0.5">
               <span className="inline-block text-sm font-semibold text-brand-600 dark:text-brand-300 bg-brand-50 dark:bg-brand-900/40 px-2 py-1 rounded transition-colors duration-200 mb-1">v1.0.0</span>
-              <div className="text-slate-500 dark:text-slate-400 text-sm">February 1, 2026</div>
+              <div className="text-slate-500 dark:text-slate-400 text-sm">January 31, 2026</div>
             </div>
 
             <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">Initial Stable Release</h3>

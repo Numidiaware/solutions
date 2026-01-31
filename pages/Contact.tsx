@@ -92,6 +92,25 @@ const Contact: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [copied, setCopied] = useState(false);
 
+  // Track theme changes to force input remounting (fixes autofill style issues)
+  const [themeMode, setThemeMode] = useState<'light' | 'dark'>(() =>
+      typeof document !== 'undefined' && document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          const isDark = document.documentElement.classList.contains('dark');
+          setThemeMode(isDark ? 'dark' : 'light');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
+
   // IMPORTANT: Replace these placeholders with your actual IDs from https://dashboard.emailjs.com/
   const SERVICE_ID = 'service_numidiaware';
   const TEMPLATE_ID = 'template_contact';
@@ -212,6 +231,40 @@ const Contact: React.FC = () => {
 
   return (
       <div className="py-16 bg-slate-50 dark:bg-slate-950 min-h-screen transition-colors duration-200">
+        {/*
+          Autofill styling strategy:
+          1. Use transition hack to effectively disable the background color change triggered by browser autofill.
+             This preserves the transparency and border-radius of our custom input design.
+          2. Force inputs to remount (via key prop) when theme changes so they pick up the new base background color
+             before the transition lock takes effect.
+      */}
+        <style>{`
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus,
+        textarea:-webkit-autofill:active {
+            -webkit-text-fill-color: #0f172a !important;
+            caret-color: #0f172a !important;
+            transition: background-color 9999s ease-in-out 0s;
+        }
+
+        .dark input:-webkit-autofill,
+        .dark input:-webkit-autofill:hover, 
+        .dark input:-webkit-autofill:focus, 
+        .dark input:-webkit-autofill:active,
+        .dark textarea:-webkit-autofill,
+        .dark textarea:-webkit-autofill:hover,
+        .dark textarea:-webkit-autofill:focus,
+        .dark textarea:-webkit-autofill:active {
+            -webkit-text-fill-color: #ffffff !important;
+            caret-color: #ffffff !important;
+        }
+      `}</style>
+
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">Contact <span className="text-brand-600">Numidiaware</span></h1>
@@ -260,6 +313,7 @@ const Contact: React.FC = () => {
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Full Name</label>
                     <input
+                        key={`name-${themeMode}`}
                         type="text"
                         name="name"
                         value={formData.name}
@@ -273,6 +327,7 @@ const Contact: React.FC = () => {
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Email Address</label>
                     <input
+                        key={`email-${themeMode}`}
                         type="email"
                         name="email"
                         value={formData.email}
@@ -307,6 +362,7 @@ const Contact: React.FC = () => {
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Message Detail</label>
                   <textarea
+                      key={`message-${themeMode}`}
                       name="message"
                       value={formData.message}
                       onChange={handleChange}

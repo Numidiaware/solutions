@@ -17,7 +17,7 @@ const Download: React.FC = () => {
                         <span className="bg-brand-600 text-white text-xs px-2 py-1 rounded font-bold uppercase tracking-wider">Stable Release</span>
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white">Version 1.0.0</h3>
                     </div>
-                    <p className="text-slate-600 dark:text-slate-300 mb-4">Released February 2026 • Windows 7/8/10/11 (32/64-bit)</p>
+                    <p className="text-slate-600 dark:text-slate-300 mb-4">Released January 2026 • Windows 7/8/10/11 (32/64-bit)</p>
                     <div className="flex flex-wrap gap-4 text-sm text-slate-500 dark:text-slate-400">
                         <span className="flex items-center gap-1"><CheckCircle size={14} className="text-green-500"/> Virus Clean</span>
                         <span className="flex items-center gap-1"><CheckCircle size={14} className="text-green-500"/> Spyware Free</span>
