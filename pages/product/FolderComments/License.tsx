@@ -294,7 +294,7 @@ const License: React.FC = () => {
                                         Numidiaware™<br/>
                                         Independent Software Developer<br/>
                                         Email: numidiaware@gmail.com<br/>
-                                        Website: https://numidiaware.github.io/Folder-Comments/
+                                        Website: https://numidiaware.github.io/solutions/
                                     </div>
                                     <p className="mt-2 text-xs italic">Note: Numidiaware™ is an independent solo developer. This license represents my commitment to providing quality freeware while protecting my intellectual property rights.</p>
                                 </div>
